@@ -13,7 +13,6 @@ import com.whatfitsnow.whatfitsnowbackend.common.exception.NotFoundException;
 import com.whatfitsnow.whatfitsnowbackend.user.User;
 import com.whatfitsnow.whatfitsnowbackend.user.UserRepository;
 import com.whatfitsnow.whatfitsnowbackend.user.vo.UserEmail;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,7 +41,6 @@ class ActivityServiceTest {
 
     var created = activityService.create(user.getId(), new CreateActivityRequest(
         "Read a book",
-        "20 minutes of reading",
         5,
         60,
         EffortLevel.LOW,
@@ -50,17 +48,14 @@ class ActivityServiceTest {
         SocialType.ALONE,
         WeatherCompatibility.ANY,
         HealthCompatibility.ANY,
-        true,
-        List.of("relax", "learning")
+        true
     ));
 
     var fetched = activityService.getById(user.getId(), created.id());
     assertThat(fetched.title()).isEqualTo("Read a book");
-    assertThat(fetched.tags()).containsExactlyInAnyOrder("learning", "relax");
 
     var updated = activityService.update(user.getId(), created.id(), new UpdateActivityRequest(
         "Read a novel",
-        null,
         10,
         45,
         EffortLevel.LOW,
@@ -68,14 +63,12 @@ class ActivityServiceTest {
         SocialType.ALONE,
         WeatherCompatibility.ANY,
         HealthCompatibility.ANY,
-        true,
-        List.of("relax")
+        true
     ));
 
     assertThat(updated.title()).isEqualTo("Read a novel");
     assertThat(updated.minDurationMinutes()).isEqualTo(10);
     assertThat(updated.maxDurationMinutes()).isEqualTo(45);
-    assertThat(updated.tags()).containsExactly("relax");
 
     var list = activityService.list(user.getId());
     assertThat(list).hasSize(1);
@@ -95,7 +88,6 @@ class ActivityServiceTest {
 
     var created = activityService.create(u2.getId(), new CreateActivityRequest(
         "Jogging",
-        null,
         15,
         30,
         EffortLevel.MEDIUM,
@@ -103,8 +95,7 @@ class ActivityServiceTest {
         SocialType.ALONE,
         WeatherCompatibility.SUNNY,
         HealthCompatibility.ANY,
-        true,
-        List.of("fitness")
+        true
     ));
 
     assertThatThrownBy(() -> activityService.getById(u3.getId(), created.id()))

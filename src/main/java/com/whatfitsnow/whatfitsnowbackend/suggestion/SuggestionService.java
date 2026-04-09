@@ -39,7 +39,6 @@ public class SuggestionService {
         .map(s -> new SuggestedActivityResponse(
             s.activity().getId(),
             s.activity().getTitle(),
-            s.activity().getDescription(),
             s.activity().getMinDurationMinutes(),
             s.activity().getMaxDurationMinutes(),
             s.activity().getEffortLevel(),

@@ -3,18 +3,12 @@ package com.whatfitsnow.whatfitsnowbackend.activity;
 import com.whatfitsnow.whatfitsnowbackend.activity.api.ActivityDto;
 import com.whatfitsnow.whatfitsnowbackend.activity.api.CreateActivityRequest;
 import com.whatfitsnow.whatfitsnowbackend.activity.api.UpdateActivityRequest;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityDescription;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationRange;
 import com.whatfitsnow.whatfitsnowbackend.common.exception.NotFoundException;
-import com.whatfitsnow.whatfitsnowbackend.tag.Tag;
-import com.whatfitsnow.whatfitsnowbackend.tag.TagRepository;
-import com.whatfitsnow.whatfitsnowbackend.tag.vo.TagName;
 import com.whatfitsnow.whatfitsnowbackend.user.User;
 import com.whatfitsnow.whatfitsnowbackend.user.UserService;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,24 +16,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class ActivityService {
 
   private final ActivityRepository activityRepository;
-  private final TagRepository tagRepository;
   private final UserService userService;
 
-  public ActivityService(ActivityRepository activityRepository, TagRepository tagRepository, UserService userService) {
+  public ActivityService(ActivityRepository activityRepository, UserService userService) {
     this.activityRepository = activityRepository;
-    this.tagRepository = tagRepository;
     this.userService = userService;
   }
 
   @Transactional
   public ActivityDto create(long userId, CreateActivityRequest req) {
     User user = userService.requireUser(userId);
-    Set<Tag> tags = resolveTags(user, req.tags());
 
     Activity activity = Activity.builder()
         .user(user)
         .title(ActivityTitle.of(req.title()))
-        .description(ActivityDescription.ofNullable(req.description()))
         .durationRange(DurationRange.of(req.minDurationMinutes(), req.maxDurationMinutes()))
         .effortLevel(req.effortLevel())
         .locationType(req.locationType())
@@ -47,7 +37,6 @@ public class ActivityService {
         .weatherCompatibility(req.weatherCompatibility())
         .healthCompatibility(req.healthCompatibility())
         .active(req.isActive() == null || req.isActive())
-        .tags(tags)
         .build();
 
     Activity saved = activityRepository.save(activity);
@@ -60,11 +49,8 @@ public class ActivityService {
     Activity activity = activityRepository.findByIdAndUser(activityId, user)
         .orElseThrow(() -> new NotFoundException("Activity not found"));
 
-    Set<Tag> tags = resolveTags(user, req.tags());
-
     Activity.builder(activity)
         .title(ActivityTitle.of(req.title()))
-        .description(ActivityDescription.ofNullable(req.description()))
         .durationRange(DurationRange.of(req.minDurationMinutes(), req.maxDurationMinutes()))
         .effortLevel(req.effortLevel())
         .locationType(req.locationType())
@@ -72,7 +58,6 @@ public class ActivityService {
         .weatherCompatibility(req.weatherCompatibility())
         .healthCompatibility(req.healthCompatibility())
         .active(req.isActive())
-        .tags(tags)
         .build();
 
     return ActivityMapper.toDto(activity);
@@ -101,21 +86,6 @@ public class ActivityService {
     Activity activity = activityRepository.findByIdAndUser(activityId, user)
         .orElseThrow(() -> new NotFoundException("Activity not found"));
     activityRepository.delete(activity);
-  }
-
-  private Set<Tag> resolveTags(User user, List<String> rawNames) {
-    if (rawNames == null || rawNames.isEmpty()) {
-      return Set.of();
-    }
-
-    Set<Tag> tags = new HashSet<>();
-    for (String raw : rawNames) {
-      TagName name = TagName.of(raw);
-      Tag tag = tagRepository.findByUserAndName(user, name)
-          .orElseGet(() -> tagRepository.save(Tag.builder().user(user).name(name).build()));
-      tags.add(tag);
-    }
-    return tags;
   }
 }
 

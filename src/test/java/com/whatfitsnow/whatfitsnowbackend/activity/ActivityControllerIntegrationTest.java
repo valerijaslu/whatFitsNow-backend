@@ -46,7 +46,6 @@ class ActivityControllerIntegrationTest {
             .content("""
                 {
                   "title":"Walk",
-                  "description":null,
                   "minDurationMinutes":5,
                   "maxDurationMinutes":60,
                   "effortLevel":"LOW",
@@ -54,8 +53,7 @@ class ActivityControllerIntegrationTest {
                   "socialType":"ALONE",
                   "weatherCompatibility":"ANY",
                   "healthCompatibility":"ANY",
-                  "isActive":true,
-                  "tags":["fresh air"]
+                  "isActive":true
                 }
                 """))
         .andExpect(status().isCreated())

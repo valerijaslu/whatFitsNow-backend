@@ -5,12 +5,10 @@ import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityDescription;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationRange;
 import com.whatfitsnow.whatfitsnowbackend.common.builder.AbstractBuilder;
 import com.whatfitsnow.whatfitsnowbackend.common.persistence.AbstractEntity;
-import com.whatfitsnow.whatfitsnowbackend.tag.Tag;
 import com.whatfitsnow.whatfitsnowbackend.user.User;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -18,12 +16,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "activities")
@@ -35,9 +29,6 @@ public class Activity extends AbstractEntity {
 
   @Embedded
   private ActivityTitle title;
-
-  @Embedded
-  private ActivityDescription description;
 
   @Embedded
   private DurationRange duration;
@@ -59,14 +50,6 @@ public class Activity extends AbstractEntity {
 
   private boolean isActive;
 
-  @ManyToMany
-  @JoinTable(
-      name = "activity_tags",
-      joinColumns = @JoinColumn(name = "activity_id"),
-      inverseJoinColumns = @JoinColumn(name = "tag_id")
-  )
-  private Set<Tag> tags = new HashSet<>();
-
   protected Activity() {
   }
 
@@ -84,10 +67,6 @@ public class Activity extends AbstractEntity {
 
   public String getTitle() {
     return title.value();
-  }
-
-  public String getDescription() {
-    return description == null ? null : description.value();
   }
 
   public int getMinDurationMinutes() {
@@ -122,10 +101,6 @@ public class Activity extends AbstractEntity {
     return isActive;
   }
 
-  public Set<Tag> getTags() {
-    return tags;
-  }
-
   public static final class Builder extends AbstractBuilder<Activity, Builder> {
 
     private Builder() {
@@ -148,11 +123,6 @@ public class Activity extends AbstractEntity {
 
     public Builder title(ActivityTitle title) {
       value.title = title;
-      return self();
-    }
-
-    public Builder description(ActivityDescription description) {
-      value.description = description;
       return self();
     }
 
@@ -188,11 +158,6 @@ public class Activity extends AbstractEntity {
 
     public Builder active(boolean active) {
       value.isActive = active;
-      return self();
-    }
-
-    public Builder tags(Set<Tag> tags) {
-      value.tags = (tags == null) ? new HashSet<>() : new HashSet<>(tags);
       return self();
     }
 

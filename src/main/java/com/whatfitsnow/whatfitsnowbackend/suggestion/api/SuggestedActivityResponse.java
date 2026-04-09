@@ -10,7 +10,6 @@ import java.util.List;
 public record SuggestedActivityResponse(
     long activityId,
     String title,
-    String description,
     int minDurationMinutes,
     int maxDurationMinutes,
     EffortLevel effortLevel,

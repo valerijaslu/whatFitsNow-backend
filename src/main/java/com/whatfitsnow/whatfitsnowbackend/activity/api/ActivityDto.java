@@ -6,13 +6,11 @@ import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
 import java.time.Instant;
-import java.util.List;
 
 public record ActivityDto(
     long id,
     long userId,
     String title,
-    String description,
     int minDurationMinutes,
     int maxDurationMinutes,
     EffortLevel effortLevel,
@@ -22,8 +20,7 @@ public record ActivityDto(
     HealthCompatibility healthCompatibility,
     boolean isActive,
     Instant createdAt,
-    Instant updatedAt,
-    List<String> tags
+    Instant updatedAt
 ) {
 }
 

@@ -7,7 +7,6 @@ import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityDescription;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationRange;
 import com.whatfitsnow.whatfitsnowbackend.suggestion.api.PreferredLocationType;
@@ -81,7 +80,6 @@ class SuggestionServiceTest {
     activityRepository.save(Activity.builder()
         .user(user)
         .title(ActivityTitle.of("Hard thing"))
-        .description(ActivityDescription.ofNullable(null))
         .durationRange(DurationRange.of(10, 60))
         .effortLevel(EffortLevel.HIGH)
         .locationType(LocationType.INDOOR)
@@ -89,7 +87,6 @@ class SuggestionServiceTest {
         .weatherCompatibility(WeatherCompatibility.ANY)
         .healthCompatibility(HealthCompatibility.ILL)
         .active(true)
-        .tags(null)
         .build());
 
     var req = new SuggestionRequest(
@@ -108,7 +105,6 @@ class SuggestionServiceTest {
     return Activity.builder()
         .user(user)
         .title(ActivityTitle.of(title))
-        .description(ActivityDescription.ofNullable(null))
         .durationRange(DurationRange.of(minutes, minutes))
         .effortLevel(EffortLevel.MEDIUM)
         .locationType(LocationType.BOTH)
@@ -116,7 +112,6 @@ class SuggestionServiceTest {
         .weatherCompatibility(WeatherCompatibility.ANY)
         .healthCompatibility(HealthCompatibility.ANY)
         .active(active)
-        .tags(null)
         .build();
   }
 }
