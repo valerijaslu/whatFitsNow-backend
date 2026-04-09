@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: whatFitsNow-backend
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/whatfitsnow}
+    username: ${DATABASE_USERNAME:whatfitsnow}
+    password: ${DATABASE_PASSWORD:whatfitsnow}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: ${SERVER_PORT:8080}
+
+app:
+  security:
+    jwt:
+      issuer: ${JWT_ISSUER:whatfitsnow}
+      # Use a 256-bit+ secret in production (base64 is fine). Example:
+      # openssl rand -base64 48
+      secret: ${JWT_SECRET:dev-only-change-me-dev-only-change-me-dev-only-change-me}
+      access-token-ttl: ${JWT_ACCESS_TOKEN_TTL:PT2H}
+
+logging:
+  level:
+    org.springframework.security: INFO
+    org.hibernate.SQL: INFO
