@@ -49,14 +49,10 @@ class ActivityControllerIntegrationTest {
                   "description":null,
                   "durationMinutes":10,
                   "effortLevel":"LOW",
-                  "pleasureScore":4,
-                  "satisfactionScore":4,
                   "locationType":"OUTDOOR",
                   "socialType":"ALONE",
                   "weatherCompatibility":"ANY",
-                  "minEnergy":1,
-                  "maxEnergy":3,
-                  "minHealth":1,
+                  "healthCompatibility":"ANY",
                   "isActive":true,
                   "tags":["fresh air"]
                 }

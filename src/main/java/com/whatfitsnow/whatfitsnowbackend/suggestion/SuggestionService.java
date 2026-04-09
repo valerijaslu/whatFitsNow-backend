@@ -33,9 +33,6 @@ public class SuggestionService {
         .flatMap(Optional::stream)
         .sorted(
             Comparator.<ActivityScorer.ScoredActivity>comparingInt(s -> s.score()).reversed()
-                .thenComparing(Comparator.comparingInt(
-                    (ActivityScorer.ScoredActivity s) -> s.activity().getPleasureScore() + s.activity().getSatisfactionScore()
-                ).reversed())
                 .thenComparing(s -> s.activity().getUpdatedAt(), Comparator.reverseOrder())
         )
         .limit(3)
@@ -45,11 +42,10 @@ public class SuggestionService {
             s.activity().getDescription(),
             s.activity().getDurationMinutes(),
             s.activity().getEffortLevel(),
-            s.activity().getPleasureScore(),
-            s.activity().getSatisfactionScore(),
             s.activity().getLocationType(),
             s.activity().getSocialType(),
             s.activity().getWeatherCompatibility(),
+            s.activity().getHealthCompatibility(),
             s.score(),
             s.reasons()
         ))

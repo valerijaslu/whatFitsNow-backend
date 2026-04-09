@@ -1,16 +1,13 @@
 package com.whatfitsnow.whatfitsnowbackend.activity;
 
 import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
+import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityDescription;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationMinutes;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.EnergyRange;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.MinHealth;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.PleasureScore;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.SatisfactionScore;
 import com.whatfitsnow.whatfitsnowbackend.common.builder.AbstractBuilder;
 import com.whatfitsnow.whatfitsnowbackend.common.persistence.AbstractEntity;
 import com.whatfitsnow.whatfitsnowbackend.tag.Tag;
@@ -48,12 +45,6 @@ public class Activity extends AbstractEntity {
   @Enumerated(EnumType.STRING)
   private EffortLevel effortLevel;
 
-  @Embedded
-  private PleasureScore pleasureScore;
-
-  @Embedded
-  private SatisfactionScore satisfactionScore;
-
   @Enumerated(EnumType.STRING)
   private LocationType locationType;
 
@@ -63,11 +54,8 @@ public class Activity extends AbstractEntity {
   @Enumerated(EnumType.STRING)
   private WeatherCompatibility weatherCompatibility;
 
-  @Embedded
-  private EnergyRange energy;
-
-  @Embedded
-  private MinHealth minHealth;
+  @Enumerated(EnumType.STRING)
+  private HealthCompatibility healthCompatibility;
 
   private boolean isActive;
 
@@ -110,14 +98,6 @@ public class Activity extends AbstractEntity {
     return effortLevel;
   }
 
-  public int getPleasureScore() {
-    return pleasureScore.value();
-  }
-
-  public int getSatisfactionScore() {
-    return satisfactionScore.value();
-  }
-
   public LocationType getLocationType() {
     return locationType;
   }
@@ -130,16 +110,8 @@ public class Activity extends AbstractEntity {
     return weatherCompatibility;
   }
 
-  public int getMinEnergy() {
-    return energy.min();
-  }
-
-  public int getMaxEnergy() {
-    return energy.max();
-  }
-
-  public int getMinHealth() {
-    return minHealth.value();
+  public HealthCompatibility getHealthCompatibility() {
+    return healthCompatibility;
   }
 
   public boolean isActive() {
@@ -190,16 +162,6 @@ public class Activity extends AbstractEntity {
       return self();
     }
 
-    public Builder pleasureScore(PleasureScore pleasureScore) {
-      value.pleasureScore = pleasureScore;
-      return self();
-    }
-
-    public Builder satisfactionScore(SatisfactionScore satisfactionScore) {
-      value.satisfactionScore = satisfactionScore;
-      return self();
-    }
-
     public Builder locationType(LocationType locationType) {
       value.locationType = locationType;
       return self();
@@ -215,13 +177,8 @@ public class Activity extends AbstractEntity {
       return self();
     }
 
-    public Builder energyRange(EnergyRange energy) {
-      value.energy = energy;
-      return self();
-    }
-
-    public Builder minHealth(MinHealth minHealth) {
-      value.minHealth = minHealth;
+    public Builder healthCompatibility(HealthCompatibility healthCompatibility) {
+      value.healthCompatibility = healthCompatibility;
       return self();
     }
 
@@ -246,13 +203,10 @@ public class Activity extends AbstractEntity {
       required(value.title, "title is required");
       required(value.durationMinutes, "durationMinutes is required");
       required(value.effortLevel, "effortLevel is required");
-      required(value.pleasureScore, "pleasureScore is required");
-      required(value.satisfactionScore, "satisfactionScore is required");
       required(value.locationType, "locationType is required");
       required(value.socialType, "socialType is required");
       required(value.weatherCompatibility, "weatherCompatibility is required");
-      required(value.energy, "energyRange is required");
-      required(value.minHealth, "minHealth is required");
+      required(value.healthCompatibility, "healthCompatibility is required");
     }
   }
 }

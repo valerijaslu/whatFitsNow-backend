@@ -1,6 +1,7 @@
 package com.whatfitsnow.whatfitsnowbackend.suggestion.api;
 
 import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
+import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
@@ -12,11 +13,10 @@ public record SuggestedActivityResponse(
     String description,
     int durationMinutes,
     EffortLevel effortLevel,
-    int pleasureScore,
-    int satisfactionScore,
     LocationType locationType,
     SocialType socialType,
     WeatherCompatibility weatherCompatibility,
+    HealthCompatibility healthCompatibility,
     int score,
     List<String> reasons
 ) {

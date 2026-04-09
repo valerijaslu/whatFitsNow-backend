@@ -3,16 +3,13 @@ package com.whatfitsnow.whatfitsnowbackend.suggestion;
 import com.whatfitsnow.whatfitsnowbackend.activity.Activity;
 import com.whatfitsnow.whatfitsnowbackend.activity.ActivityRepository;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
+import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityDescription;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationMinutes;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.EnergyRange;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.MinHealth;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.PleasureScore;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.SatisfactionScore;
 import com.whatfitsnow.whatfitsnowbackend.suggestion.api.PreferredLocationType;
 import com.whatfitsnow.whatfitsnowbackend.suggestion.api.PreferredSocialType;
 import com.whatfitsnow.whatfitsnowbackend.suggestion.api.SuggestionRequest;
@@ -53,14 +50,14 @@ class SuggestionServiceTest {
         .build());
 
     // 4 activities, one inactive, one too long, two good
-    activityRepository.save(activity(user, "A", 10, true, 2, 2));   // valid
-    activityRepository.save(activity(user, "B", 10, true, 5, 5));   // valid, higher scores
-    activityRepository.save(activity(user, "C", 500, true, 5, 5));  // filtered by duration
-    activityRepository.save(activity(user, "D", 10, false, 5, 5));  // filtered by inactive
+    activityRepository.save(activity(user, "A", 10, true));   // valid
+    activityRepository.save(activity(user, "B", 10, true));   // valid
+    activityRepository.save(activity(user, "C", 500, true));  // filtered by duration
+    activityRepository.save(activity(user, "D", 10, false));  // filtered by inactive
 
     var req = new SuggestionRequest(
         3,
-        3,
+        HealthCompatibility.ANY,
         PreferredLocationType.ANY,
         PreferredSocialType.ANY,
         WeatherCompatibility.ANY,
@@ -69,7 +66,7 @@ class SuggestionServiceTest {
 
     var result = suggestionService.suggest(user.getId(), req);
     assertThat(result).hasSize(2);
-    assertThat(result.getFirst().title()).isEqualTo("B");
+    assertThat(result.getFirst().title()).isIn("A", "B");
     assertThat(result.getFirst().reasons()).isNotEmpty();
   }
 
@@ -87,20 +84,17 @@ class SuggestionServiceTest {
         .description(ActivityDescription.ofNullable(null))
         .durationMinutes(DurationMinutes.of(10))
         .effortLevel(EffortLevel.HIGH)
-        .pleasureScore(PleasureScore.of(5))
-        .satisfactionScore(SatisfactionScore.of(5))
         .locationType(LocationType.INDOOR)
         .socialType(SocialType.ALONE)
         .weatherCompatibility(WeatherCompatibility.ANY)
-        .energyRange(EnergyRange.of(5, 5))
-        .minHealth(MinHealth.of(1))
+        .healthCompatibility(HealthCompatibility.ILL)
         .active(true)
         .tags(null)
         .build());
 
     var req = new SuggestionRequest(
         1,
-        5,
+        HealthCompatibility.HEALTHY,
         PreferredLocationType.ANY,
         PreferredSocialType.ANY,
         WeatherCompatibility.ANY,
@@ -110,20 +104,17 @@ class SuggestionServiceTest {
     assertThat(suggestionService.suggest(user.getId(), req)).isEmpty();
   }
 
-  private static Activity activity(User user, String title, int minutes, boolean active, int pleasure, int satisfaction) {
+  private static Activity activity(User user, String title, int minutes, boolean active) {
     return Activity.builder()
         .user(user)
         .title(ActivityTitle.of(title))
         .description(ActivityDescription.ofNullable(null))
         .durationMinutes(DurationMinutes.of(minutes))
-        .effortLevel(EffortLevel.LOW)
-        .pleasureScore(PleasureScore.of(pleasure))
-        .satisfactionScore(SatisfactionScore.of(satisfaction))
+        .effortLevel(EffortLevel.MEDIUM)
         .locationType(LocationType.BOTH)
         .socialType(SocialType.BOTH)
         .weatherCompatibility(WeatherCompatibility.ANY)
-        .energyRange(EnergyRange.of(1, 5))
-        .minHealth(MinHealth.of(1))
+        .healthCompatibility(HealthCompatibility.ANY)
         .active(active)
         .tags(null)
         .build();

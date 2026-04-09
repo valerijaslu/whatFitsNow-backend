@@ -3,6 +3,7 @@ package com.whatfitsnow.whatfitsnowbackend.activity;
 import com.whatfitsnow.whatfitsnowbackend.activity.api.CreateActivityRequest;
 import com.whatfitsnow.whatfitsnowbackend.activity.api.UpdateActivityRequest;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
+import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
@@ -44,14 +45,10 @@ class ActivityServiceTest {
         "20 minutes of reading",
         20,
         EffortLevel.LOW,
-        4,
-        5,
         LocationType.INDOOR,
         SocialType.ALONE,
         WeatherCompatibility.ANY,
-        1,
-        3,
-        2,
+        HealthCompatibility.ANY,
         true,
         List.of("relax", "learning")
     ));
@@ -65,14 +62,10 @@ class ActivityServiceTest {
         null,
         30,
         EffortLevel.LOW,
-        5,
-        5,
         LocationType.INDOOR,
         SocialType.ALONE,
         WeatherCompatibility.ANY,
-        1,
-        4,
-        2,
+        HealthCompatibility.ANY,
         true,
         List.of("relax")
     ));
@@ -102,14 +95,10 @@ class ActivityServiceTest {
         null,
         15,
         EffortLevel.MEDIUM,
-        4,
-        4,
         LocationType.OUTDOOR,
         SocialType.ALONE,
         WeatherCompatibility.SUNNY,
-        2,
-        4,
-        2,
+        HealthCompatibility.ANY,
         true,
         List.of("fitness")
     ));

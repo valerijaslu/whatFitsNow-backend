@@ -1,6 +1,8 @@
 package com.whatfitsnow.whatfitsnowbackend.suggestion;
 
 import com.whatfitsnow.whatfitsnowbackend.activity.Activity;
+import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
+import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
@@ -25,7 +27,7 @@ public final class ActivityScorer {
     }
     score += 3;
 
-    if (!fitsHealth(a, req.healthLevel(), reasons)) {
+    if (!fitsHealth(a, req.currentHealth(), reasons)) {
       return Optional.empty();
     }
     score += 3;
@@ -50,28 +52,30 @@ public final class ActivityScorer {
     }
     score += 2;
 
-    // Tie-breaker-ish boost: keep deterministic and transparent.
-    score += a.getPleasureScore();
-    score += a.getSatisfactionScore();
-    reasons.add("high pleasure/satisfaction");
-
     return Optional.of(new ScoredActivity(a, score, reasons));
   }
 
   private static boolean fitsEnergy(Activity a, int energyLevel, List<String> reasons) {
-    if (energyLevel < a.getMinEnergy() || energyLevel > a.getMaxEnergy()) {
+    EffortLevel effort = a.getEffortLevel();
+    boolean ok = switch (effort) {
+      case LOW -> energyLevel <= 2;
+      case MEDIUM -> energyLevel >= 2 && energyLevel <= 4;
+      case HIGH -> energyLevel >= 4;
+    };
+    if (!ok) {
       return false;
     }
-    reasons.add("fits energy level");
+    reasons.add("fits " + effort.name().toLowerCase() + " effort");
     return true;
   }
 
-  private static boolean fitsHealth(Activity a, int healthLevel, List<String> reasons) {
-    if (healthLevel < a.getMinHealth()) {
-      return false;
+  private static boolean fitsHealth(Activity a, HealthCompatibility current, List<String> reasons) {
+    HealthCompatibility needed = a.getHealthCompatibility();
+    if (needed == HealthCompatibility.ANY || current == HealthCompatibility.ANY || needed == current) {
+      reasons.add("health compatible");
+      return true;
     }
-    reasons.add("health compatible");
-    return true;
+    return false;
   }
 
   private static boolean fitsWeather(Activity a, WeatherCompatibility current, List<String> reasons) {

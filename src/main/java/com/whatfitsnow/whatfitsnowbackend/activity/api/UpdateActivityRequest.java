@@ -1,6 +1,7 @@
 package com.whatfitsnow.whatfitsnowbackend.activity.api;
 
 import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
+import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
@@ -16,14 +17,10 @@ public record UpdateActivityRequest(
     @Size(max = 1000) String description,
     @NotNull @Min(1) @Max(1440) Integer durationMinutes,
     @NotNull EffortLevel effortLevel,
-    @NotNull @Min(1) @Max(5) Integer pleasureScore,
-    @NotNull @Min(1) @Max(5) Integer satisfactionScore,
     @NotNull LocationType locationType,
     @NotNull SocialType socialType,
     @NotNull WeatherCompatibility weatherCompatibility,
-    @NotNull @Min(1) @Max(5) Integer minEnergy,
-    @NotNull @Min(1) @Max(5) Integer maxEnergy,
-    @NotNull @Min(1) @Max(5) Integer minHealth,
+    @NotNull HealthCompatibility healthCompatibility,
     @NotNull Boolean isActive,
     List<@NotBlank @Size(max = 40) String> tags
 ) {

@@ -6,10 +6,6 @@ import com.whatfitsnow.whatfitsnowbackend.activity.api.UpdateActivityRequest;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityDescription;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationMinutes;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.EnergyRange;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.MinHealth;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.PleasureScore;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.SatisfactionScore;
 import com.whatfitsnow.whatfitsnowbackend.common.exception.NotFoundException;
 import com.whatfitsnow.whatfitsnowbackend.tag.Tag;
 import com.whatfitsnow.whatfitsnowbackend.tag.TagRepository;
@@ -46,13 +42,10 @@ public class ActivityService {
         .description(ActivityDescription.ofNullable(req.description()))
         .durationMinutes(DurationMinutes.of(req.durationMinutes()))
         .effortLevel(req.effortLevel())
-        .pleasureScore(PleasureScore.of(req.pleasureScore()))
-        .satisfactionScore(SatisfactionScore.of(req.satisfactionScore()))
         .locationType(req.locationType())
         .socialType(req.socialType())
         .weatherCompatibility(req.weatherCompatibility())
-        .energyRange(EnergyRange.of(req.minEnergy(), req.maxEnergy()))
-        .minHealth(MinHealth.of(req.minHealth()))
+        .healthCompatibility(req.healthCompatibility())
         .active(req.isActive() == null || req.isActive())
         .tags(tags)
         .build();
@@ -74,13 +67,10 @@ public class ActivityService {
         .description(ActivityDescription.ofNullable(req.description()))
         .durationMinutes(DurationMinutes.of(req.durationMinutes()))
         .effortLevel(req.effortLevel())
-        .pleasureScore(PleasureScore.of(req.pleasureScore()))
-        .satisfactionScore(SatisfactionScore.of(req.satisfactionScore()))
         .locationType(req.locationType())
         .socialType(req.socialType())
         .weatherCompatibility(req.weatherCompatibility())
-        .energyRange(EnergyRange.of(req.minEnergy(), req.maxEnergy()))
-        .minHealth(MinHealth.of(req.minHealth()))
+        .healthCompatibility(req.healthCompatibility())
         .active(req.isActive())
         .tags(tags)
         .build();

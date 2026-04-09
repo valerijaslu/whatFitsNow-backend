@@ -1,6 +1,7 @@
 package com.whatfitsnow.whatfitsnowbackend.activity.api;
 
 import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
+import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
@@ -14,14 +15,10 @@ public record ActivityDto(
     String description,
     int durationMinutes,
     EffortLevel effortLevel,
-    int pleasureScore,
-    int satisfactionScore,
     LocationType locationType,
     SocialType socialType,
     WeatherCompatibility weatherCompatibility,
-    int minEnergy,
-    int maxEnergy,
-    int minHealth,
+    HealthCompatibility healthCompatibility,
     boolean isActive,
     Instant createdAt,
     Instant updatedAt,
