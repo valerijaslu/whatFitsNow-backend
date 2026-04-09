@@ -47,7 +47,8 @@ class ActivityControllerIntegrationTest {
                 {
                   "title":"Walk",
                   "description":null,
-                  "durationMinutes":10,
+                  "minDurationMinutes":5,
+                  "maxDurationMinutes":60,
                   "effortLevel":"LOW",
                   "locationType":"OUTDOOR",
                   "socialType":"ALONE",

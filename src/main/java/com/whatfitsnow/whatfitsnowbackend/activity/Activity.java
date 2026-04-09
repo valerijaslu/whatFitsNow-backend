@@ -7,7 +7,7 @@ import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityDescription;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationMinutes;
+import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationRange;
 import com.whatfitsnow.whatfitsnowbackend.common.builder.AbstractBuilder;
 import com.whatfitsnow.whatfitsnowbackend.common.persistence.AbstractEntity;
 import com.whatfitsnow.whatfitsnowbackend.tag.Tag;
@@ -40,7 +40,7 @@ public class Activity extends AbstractEntity {
   private ActivityDescription description;
 
   @Embedded
-  private DurationMinutes durationMinutes;
+  private DurationRange duration;
 
   @Enumerated(EnumType.STRING)
   private EffortLevel effortLevel;
@@ -90,8 +90,12 @@ public class Activity extends AbstractEntity {
     return description == null ? null : description.value();
   }
 
-  public int getDurationMinutes() {
-    return durationMinutes.value();
+  public int getMinDurationMinutes() {
+    return duration.min();
+  }
+
+  public int getMaxDurationMinutes() {
+    return duration.max();
   }
 
   public EffortLevel getEffortLevel() {
@@ -152,8 +156,8 @@ public class Activity extends AbstractEntity {
       return self();
     }
 
-    public Builder durationMinutes(DurationMinutes durationMinutes) {
-      value.durationMinutes = durationMinutes;
+    public Builder durationRange(DurationRange duration) {
+      value.duration = duration;
       return self();
     }
 
@@ -201,7 +205,7 @@ public class Activity extends AbstractEntity {
     protected void validate() {
       required(value.user, "user is required");
       required(value.title, "title is required");
-      required(value.durationMinutes, "durationMinutes is required");
+      required(value.duration, "durationRange is required");
       required(value.effortLevel, "effortLevel is required");
       required(value.locationType, "locationType is required");
       required(value.socialType, "socialType is required");

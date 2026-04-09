@@ -118,7 +118,7 @@ public final class ActivityScorer {
   }
 
   private static boolean fitsDuration(Activity a, int availableMinutes, List<String> reasons) {
-    if (a.getDurationMinutes() > availableMinutes) {
+    if (a.getMinDurationMinutes() > availableMinutes) {
       return false;
     }
     reasons.add("short enough for available time");

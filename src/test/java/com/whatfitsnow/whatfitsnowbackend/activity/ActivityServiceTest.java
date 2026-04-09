@@ -43,7 +43,8 @@ class ActivityServiceTest {
     var created = activityService.create(user.getId(), new CreateActivityRequest(
         "Read a book",
         "20 minutes of reading",
-        20,
+        5,
+        60,
         EffortLevel.LOW,
         LocationType.INDOOR,
         SocialType.ALONE,
@@ -60,7 +61,8 @@ class ActivityServiceTest {
     var updated = activityService.update(user.getId(), created.id(), new UpdateActivityRequest(
         "Read a novel",
         null,
-        30,
+        10,
+        45,
         EffortLevel.LOW,
         LocationType.INDOOR,
         SocialType.ALONE,
@@ -71,7 +73,8 @@ class ActivityServiceTest {
     ));
 
     assertThat(updated.title()).isEqualTo("Read a novel");
-    assertThat(updated.durationMinutes()).isEqualTo(30);
+    assertThat(updated.minDurationMinutes()).isEqualTo(10);
+    assertThat(updated.maxDurationMinutes()).isEqualTo(45);
     assertThat(updated.tags()).containsExactly("relax");
 
     var list = activityService.list(user.getId());
@@ -94,6 +97,7 @@ class ActivityServiceTest {
         "Jogging",
         null,
         15,
+        30,
         EffortLevel.MEDIUM,
         LocationType.OUTDOOR,
         SocialType.ALONE,

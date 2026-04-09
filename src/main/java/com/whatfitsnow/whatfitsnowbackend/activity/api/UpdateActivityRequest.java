@@ -15,7 +15,8 @@ import java.util.List;
 public record UpdateActivityRequest(
     @NotBlank @Size(max = 120) String title,
     @Size(max = 1000) String description,
-    @NotNull @Min(1) @Max(1440) Integer durationMinutes,
+    @NotNull @Min(1) @Max(1440) Integer minDurationMinutes,
+    @NotNull @Min(1) @Max(1440) Integer maxDurationMinutes,
     @NotNull EffortLevel effortLevel,
     @NotNull LocationType locationType,
     @NotNull SocialType socialType,

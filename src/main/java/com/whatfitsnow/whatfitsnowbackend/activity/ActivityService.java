@@ -5,7 +5,7 @@ import com.whatfitsnow.whatfitsnowbackend.activity.api.CreateActivityRequest;
 import com.whatfitsnow.whatfitsnowbackend.activity.api.UpdateActivityRequest;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityDescription;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationMinutes;
+import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationRange;
 import com.whatfitsnow.whatfitsnowbackend.common.exception.NotFoundException;
 import com.whatfitsnow.whatfitsnowbackend.tag.Tag;
 import com.whatfitsnow.whatfitsnowbackend.tag.TagRepository;
@@ -40,7 +40,7 @@ public class ActivityService {
         .user(user)
         .title(ActivityTitle.of(req.title()))
         .description(ActivityDescription.ofNullable(req.description()))
-        .durationMinutes(DurationMinutes.of(req.durationMinutes()))
+        .durationRange(DurationRange.of(req.minDurationMinutes(), req.maxDurationMinutes()))
         .effortLevel(req.effortLevel())
         .locationType(req.locationType())
         .socialType(req.socialType())
@@ -65,7 +65,7 @@ public class ActivityService {
     Activity.builder(activity)
         .title(ActivityTitle.of(req.title()))
         .description(ActivityDescription.ofNullable(req.description()))
-        .durationMinutes(DurationMinutes.of(req.durationMinutes()))
+        .durationRange(DurationRange.of(req.minDurationMinutes(), req.maxDurationMinutes()))
         .effortLevel(req.effortLevel())
         .locationType(req.locationType())
         .socialType(req.socialType())

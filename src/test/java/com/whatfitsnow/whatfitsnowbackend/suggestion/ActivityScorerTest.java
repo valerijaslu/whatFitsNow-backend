@@ -8,7 +8,7 @@ import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityDescription;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationMinutes;
+import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationRange;
 import com.whatfitsnow.whatfitsnowbackend.suggestion.api.PreferredLocationType;
 import com.whatfitsnow.whatfitsnowbackend.suggestion.api.PreferredSocialType;
 import com.whatfitsnow.whatfitsnowbackend.suggestion.api.SuggestionRequest;
@@ -29,7 +29,7 @@ class ActivityScorerTest {
         .user(user)
         .title(ActivityTitle.of("A"))
         .description(ActivityDescription.ofNullable(null))
-        .durationMinutes(DurationMinutes.of(10))
+        .durationRange(DurationRange.of(10, 60))
         .effortLevel(EffortLevel.HIGH)
         .locationType(LocationType.INDOOR)
         .socialType(SocialType.ALONE)
@@ -75,7 +75,7 @@ class ActivityScorerTest {
         .user(user)
         .title(ActivityTitle.of(title))
         .description(ActivityDescription.ofNullable(null))
-        .durationMinutes(DurationMinutes.of(20))
+        .durationRange(DurationRange.of(20, 20))
         .effortLevel(EffortLevel.LOW)
         .locationType(LocationType.BOTH)
         .socialType(SocialType.BOTH)
