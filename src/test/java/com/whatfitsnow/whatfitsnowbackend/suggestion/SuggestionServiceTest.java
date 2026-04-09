@@ -73,6 +73,43 @@ class SuggestionServiceTest {
     assertThat(result.getFirst().reasons()).isNotEmpty();
   }
 
+  @Test
+  void returns_empty_when_no_activity_matches() {
+    User user = userRepository.save(User.builder()
+        .email(UserEmail.of("nomatch@example.com"))
+        .passwordHash(PasswordHash.of("hash"))
+        .build());
+
+    // activity requires more energy than request provides
+    activityRepository.save(Activity.builder()
+        .user(user)
+        .title(ActivityTitle.of("Hard thing"))
+        .description(ActivityDescription.ofNullable(null))
+        .durationMinutes(DurationMinutes.of(10))
+        .effortLevel(EffortLevel.HIGH)
+        .pleasureScore(PleasureScore.of(5))
+        .satisfactionScore(SatisfactionScore.of(5))
+        .locationType(LocationType.INDOOR)
+        .socialType(SocialType.ALONE)
+        .weatherCompatibility(WeatherCompatibility.ANY)
+        .energyRange(EnergyRange.of(5, 5))
+        .minHealth(MinHealth.of(1))
+        .active(true)
+        .tags(null)
+        .build());
+
+    var req = new SuggestionRequest(
+        1,
+        5,
+        PreferredLocationType.ANY,
+        PreferredSocialType.ANY,
+        WeatherCompatibility.ANY,
+        30
+    );
+
+    assertThat(suggestionService.suggest(user.getId(), req)).isEmpty();
+  }
+
   private static Activity activity(User user, String title, int minutes, boolean active, int pleasure, int satisfaction) {
     return Activity.builder()
         .user(user)
