@@ -30,8 +30,8 @@ public class MinHealth extends AbstractValueObject<Integer> {
     if (value == null) {
       throw new InvalidValueException("minHealth", "minHealth is required");
     }
-    if (value < 0 || value > 100) {
-      throw new InvalidValueException("minHealth", "minHealth must be between 0 and 100");
+    if (value < 1 || value > 5) {
+      throw new InvalidValueException("minHealth", "minHealth must be between 1 and 5");
     }
   }
 

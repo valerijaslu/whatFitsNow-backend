@@ -2,6 +2,7 @@ package com.whatfitsnow.whatfitsnowbackend.common.web;
 
 import com.whatfitsnow.whatfitsnowbackend.common.api.ApiErrorResponse;
 import com.whatfitsnow.whatfitsnowbackend.common.exception.ConflictException;
+import com.whatfitsnow.whatfitsnowbackend.common.exception.ForbiddenException;
 import com.whatfitsnow.whatfitsnowbackend.common.exception.NotFoundException;
 import com.whatfitsnow.whatfitsnowbackend.common.exception.UnauthorizedException;
 import com.whatfitsnow.whatfitsnowbackend.common.valueobject.InvalidValueException;
@@ -46,12 +47,22 @@ public class GlobalExceptionHandler {
     return toResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI(), List.of());
   }
 
+  @ExceptionHandler(ForbiddenException.class)
+  public ResponseEntity<ApiErrorResponse> handleForbidden(ForbiddenException ex, HttpServletRequest request) {
+    return toResponse(HttpStatus.FORBIDDEN, ex.getMessage(), request.getRequestURI(), List.of());
+  }
+
   @ExceptionHandler(InvalidValueException.class)
   public ResponseEntity<ApiErrorResponse> handleInvalidValue(InvalidValueException ex, HttpServletRequest request) {
     List<ApiErrorResponse.FieldViolation> violations = List.of(
         new ApiErrorResponse.FieldViolation(ex.getField(), ex.getMessage())
     );
     return toResponse(HttpStatus.BAD_REQUEST, "Validation failed", request.getRequestURI(), violations);
+  }
+
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ApiErrorResponse> handleIllegalArgument(IllegalArgumentException ex, HttpServletRequest request) {
+    return toResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI(), List.of());
   }
 
   @ExceptionHandler(Exception.class)

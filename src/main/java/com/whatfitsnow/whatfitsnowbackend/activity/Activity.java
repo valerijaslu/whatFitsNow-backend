@@ -7,8 +7,7 @@ import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityDescription;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationMinutes;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.MaxEnergy;
-import com.whatfitsnow.whatfitsnowbackend.activity.vo.MinEnergy;
+import com.whatfitsnow.whatfitsnowbackend.activity.vo.EnergyRange;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.MinHealth;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.PleasureScore;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.SatisfactionScore;
@@ -65,10 +64,7 @@ public class Activity extends AbstractEntity {
   private WeatherCompatibility weatherCompatibility;
 
   @Embedded
-  private MinEnergy minEnergy;
-
-  @Embedded
-  private MaxEnergy maxEnergy;
+  private EnergyRange energy;
 
   @Embedded
   private MinHealth minHealth;
@@ -88,6 +84,10 @@ public class Activity extends AbstractEntity {
 
   public static Builder builder() {
     return new Builder();
+  }
+
+  static Builder builder(Activity existing) {
+    return Builder.forExisting(existing);
   }
 
   public long getUserId() {
@@ -131,11 +131,11 @@ public class Activity extends AbstractEntity {
   }
 
   public int getMinEnergy() {
-    return minEnergy.value();
+    return energy.min();
   }
 
   public int getMaxEnergy() {
-    return maxEnergy.value();
+    return energy.max();
   }
 
   public int getMinHealth() {
@@ -155,6 +155,14 @@ public class Activity extends AbstractEntity {
     private Builder() {
       super(new Activity());
       value.isActive = true;
+    }
+
+    private Builder(Activity existing) {
+      super(existing);
+    }
+
+    public static Builder forExisting(Activity existing) {
+      return new Builder(existing);
     }
 
     public Builder user(User user) {
@@ -207,13 +215,8 @@ public class Activity extends AbstractEntity {
       return self();
     }
 
-    public Builder minEnergy(MinEnergy minEnergy) {
-      value.minEnergy = minEnergy;
-      return self();
-    }
-
-    public Builder maxEnergy(MaxEnergy maxEnergy) {
-      value.maxEnergy = maxEnergy;
+    public Builder energyRange(EnergyRange energy) {
+      value.energy = energy;
       return self();
     }
 
@@ -248,13 +251,8 @@ public class Activity extends AbstractEntity {
       required(value.locationType, "locationType is required");
       required(value.socialType, "socialType is required");
       required(value.weatherCompatibility, "weatherCompatibility is required");
-      required(value.minEnergy, "minEnergy is required");
-      required(value.maxEnergy, "maxEnergy is required");
+      required(value.energy, "energyRange is required");
       required(value.minHealth, "minHealth is required");
-
-      if (value.minEnergy.value() > value.maxEnergy.value()) {
-        throw new IllegalArgumentException("minEnergy cannot be greater than maxEnergy");
-      }
     }
   }
 }
