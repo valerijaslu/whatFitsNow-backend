@@ -1,10 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/whatfitsnow
+    url: jdbc:postgresql://localhost:5433/whatfitsnow
     username: whatfitsnow
     password: whatfitsnow
 
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
     open-in-view: false
@@ -12,9 +13,16 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+    # Helpful when your local DB isn't empty but has no Flyway history yet.
+    baseline-on-migrate: true
+    baseline-version: 0
 
 server:
   port: 8080
+
+logging:
+  level:
+    org.flywaydb: INFO
 
 app:
   security:
