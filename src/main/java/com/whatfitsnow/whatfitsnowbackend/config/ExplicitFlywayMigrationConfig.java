@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Profile;
  * This avoids relying on auto-configuration ordering.
  */
 @Configuration
-@Profile("local")
 public class ExplicitFlywayMigrationConfig {
 
   @Bean(name = "explicitFlywayMigrator")
