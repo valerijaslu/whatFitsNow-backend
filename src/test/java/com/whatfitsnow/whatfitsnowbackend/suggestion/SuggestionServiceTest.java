@@ -3,10 +3,8 @@ package com.whatfitsnow.whatfitsnowbackend.suggestion;
 import com.whatfitsnow.whatfitsnowbackend.activity.Activity;
 import com.whatfitsnow.whatfitsnowbackend.activity.ActivityRepository;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
-import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
-import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationRange;
 import com.whatfitsnow.whatfitsnowbackend.suggestion.api.PreferredLocationType;
@@ -56,10 +54,8 @@ class SuggestionServiceTest {
 
     var req = new SuggestionRequest(
         3,
-        HealthCompatibility.ANY,
         PreferredLocationType.ANY,
         PreferredSocialType.ANY,
-        WeatherCompatibility.ANY,
         30
     );
 
@@ -84,17 +80,13 @@ class SuggestionServiceTest {
         .effortLevel(EffortLevel.HIGH)
         .locationType(LocationType.INDOOR)
         .socialType(SocialType.ALONE)
-        .weatherCompatibility(WeatherCompatibility.ANY)
-        .healthCompatibility(HealthCompatibility.ILL)
         .active(true)
         .build());
 
     var req = new SuggestionRequest(
         1,
-        HealthCompatibility.HEALTHY,
         PreferredLocationType.ANY,
         PreferredSocialType.ANY,
-        WeatherCompatibility.ANY,
         30
     );
 
@@ -109,8 +101,6 @@ class SuggestionServiceTest {
         .effortLevel(EffortLevel.MEDIUM)
         .locationType(LocationType.BOTH)
         .socialType(SocialType.BOTH)
-        .weatherCompatibility(WeatherCompatibility.ANY)
-        .healthCompatibility(HealthCompatibility.ANY)
         .active(active)
         .build();
   }

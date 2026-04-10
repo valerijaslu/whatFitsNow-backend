@@ -34,8 +34,6 @@ public class ActivityService {
         .effortLevel(req.effortLevel())
         .locationType(req.locationType())
         .socialType(req.socialType())
-        .weatherCompatibility(req.weatherCompatibility())
-        .healthCompatibility(req.healthCompatibility())
         .active(req.isActive() == null || req.isActive())
         .build();
 
@@ -55,8 +53,6 @@ public class ActivityService {
         .effortLevel(req.effortLevel())
         .locationType(req.locationType())
         .socialType(req.socialType())
-        .weatherCompatibility(req.weatherCompatibility())
-        .healthCompatibility(req.healthCompatibility())
         .active(req.isActive())
         .build();
 

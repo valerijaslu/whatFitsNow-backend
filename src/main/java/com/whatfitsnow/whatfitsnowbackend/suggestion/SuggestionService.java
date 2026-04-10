@@ -35,7 +35,6 @@ public class SuggestionService {
             Comparator.<ActivityScorer.ScoredActivity>comparingInt(s -> s.score()).reversed()
                 .thenComparing(s -> s.activity().getUpdatedAt(), Comparator.reverseOrder())
         )
-        .limit(3)
         .map(s -> new SuggestedActivityResponse(
             s.activity().getId(),
             s.activity().getTitle(),
@@ -44,8 +43,6 @@ public class SuggestionService {
             s.activity().getEffortLevel(),
             s.activity().getLocationType(),
             s.activity().getSocialType(),
-            s.activity().getWeatherCompatibility(),
-            s.activity().getHealthCompatibility(),
             s.score(),
             s.reasons()
         ))

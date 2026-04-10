@@ -51,8 +51,6 @@ class ActivityControllerIntegrationTest {
                   "effortLevel":"LOW",
                   "locationType":"OUTDOOR",
                   "socialType":"ALONE",
-                  "weatherCompatibility":"ANY",
-                  "healthCompatibility":"ANY",
                   "isActive":true
                 }
                 """))

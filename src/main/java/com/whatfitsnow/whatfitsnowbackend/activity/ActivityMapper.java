@@ -16,8 +16,6 @@ public final class ActivityMapper {
         a.getEffortLevel(),
         a.getLocationType(),
         a.getSocialType(),
-        a.getWeatherCompatibility(),
-        a.getHealthCompatibility(),
         a.isActive(),
         a.getCreatedAt(),
         a.getUpdatedAt()

@@ -1,10 +1,8 @@
 package com.whatfitsnow.whatfitsnowbackend.activity.api;
 
 import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
-import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
-import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -18,8 +16,6 @@ public record CreateActivityRequest(
     @NotNull EffortLevel effortLevel,
     @NotNull LocationType locationType,
     @NotNull SocialType socialType,
-    @NotNull WeatherCompatibility weatherCompatibility,
-    @NotNull HealthCompatibility healthCompatibility,
     Boolean isActive
 ) {
 }

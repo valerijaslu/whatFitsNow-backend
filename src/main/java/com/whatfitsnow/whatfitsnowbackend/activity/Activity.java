@@ -1,10 +1,8 @@
 package com.whatfitsnow.whatfitsnowbackend.activity;
 
 import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
-import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
-import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.ActivityTitle;
 import com.whatfitsnow.whatfitsnowbackend.activity.vo.DurationRange;
 import com.whatfitsnow.whatfitsnowbackend.common.builder.AbstractBuilder;
@@ -41,12 +39,6 @@ public class Activity extends AbstractEntity {
 
   @Enumerated(EnumType.STRING)
   private SocialType socialType;
-
-  @Enumerated(EnumType.STRING)
-  private WeatherCompatibility weatherCompatibility;
-
-  @Enumerated(EnumType.STRING)
-  private HealthCompatibility healthCompatibility;
 
   private boolean isActive;
 
@@ -87,14 +79,6 @@ public class Activity extends AbstractEntity {
 
   public SocialType getSocialType() {
     return socialType;
-  }
-
-  public WeatherCompatibility getWeatherCompatibility() {
-    return weatherCompatibility;
-  }
-
-  public HealthCompatibility getHealthCompatibility() {
-    return healthCompatibility;
   }
 
   public boolean isActive() {
@@ -146,16 +130,6 @@ public class Activity extends AbstractEntity {
       return self();
     }
 
-    public Builder weatherCompatibility(WeatherCompatibility weatherCompatibility) {
-      value.weatherCompatibility = weatherCompatibility;
-      return self();
-    }
-
-    public Builder healthCompatibility(HealthCompatibility healthCompatibility) {
-      value.healthCompatibility = healthCompatibility;
-      return self();
-    }
-
     public Builder active(boolean active) {
       value.isActive = active;
       return self();
@@ -174,8 +148,6 @@ public class Activity extends AbstractEntity {
       required(value.effortLevel, "effortLevel is required");
       required(value.locationType, "locationType is required");
       required(value.socialType, "socialType is required");
-      required(value.weatherCompatibility, "weatherCompatibility is required");
-      required(value.healthCompatibility, "healthCompatibility is required");
     }
   }
 }

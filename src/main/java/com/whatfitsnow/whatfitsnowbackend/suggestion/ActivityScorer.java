@@ -2,10 +2,8 @@ package com.whatfitsnow.whatfitsnowbackend.suggestion;
 
 import com.whatfitsnow.whatfitsnowbackend.activity.Activity;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
-import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
-import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.suggestion.api.PreferredLocationType;
 import com.whatfitsnow.whatfitsnowbackend.suggestion.api.PreferredSocialType;
 import com.whatfitsnow.whatfitsnowbackend.suggestion.api.SuggestionRequest;
@@ -26,16 +24,6 @@ public final class ActivityScorer {
       return Optional.empty();
     }
     score += 3;
-
-    if (!fitsHealth(a, req.currentHealth(), reasons)) {
-      return Optional.empty();
-    }
-    score += 3;
-
-    if (!fitsWeather(a, req.currentWeather(), reasons)) {
-      return Optional.empty();
-    }
-    score += 2;
 
     if (!fitsLocation(a, req.preferredLocationType(), reasons)) {
       return Optional.empty();
@@ -67,24 +55,6 @@ public final class ActivityScorer {
     }
     reasons.add("fits " + effort.name().toLowerCase() + " effort");
     return true;
-  }
-
-  private static boolean fitsHealth(Activity a, HealthCompatibility current, List<String> reasons) {
-    HealthCompatibility needed = a.getHealthCompatibility();
-    if (needed == HealthCompatibility.ANY || current == HealthCompatibility.ANY || needed == current) {
-      reasons.add("health compatible");
-      return true;
-    }
-    return false;
-  }
-
-  private static boolean fitsWeather(Activity a, WeatherCompatibility current, List<String> reasons) {
-    WeatherCompatibility needed = a.getWeatherCompatibility();
-    if (needed == WeatherCompatibility.ANY || current == WeatherCompatibility.ANY || needed == current) {
-      reasons.add(current == WeatherCompatibility.RAINY ? "good for rainy weather" : "weather compatible");
-      return true;
-    }
-    return false;
   }
 
   private static boolean fitsLocation(Activity a, PreferredLocationType pref, List<String> reasons) {

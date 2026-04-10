@@ -3,10 +3,8 @@ package com.whatfitsnow.whatfitsnowbackend.activity;
 import com.whatfitsnow.whatfitsnowbackend.activity.api.CreateActivityRequest;
 import com.whatfitsnow.whatfitsnowbackend.activity.api.UpdateActivityRequest;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.EffortLevel;
-import com.whatfitsnow.whatfitsnowbackend.activity.model.HealthCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.LocationType;
 import com.whatfitsnow.whatfitsnowbackend.activity.model.SocialType;
-import com.whatfitsnow.whatfitsnowbackend.activity.model.WeatherCompatibility;
 import com.whatfitsnow.whatfitsnowbackend.auth.api.RegisterRequest;
 import com.whatfitsnow.whatfitsnowbackend.auth.AuthService;
 import com.whatfitsnow.whatfitsnowbackend.common.exception.NotFoundException;
@@ -46,8 +44,6 @@ class ActivityServiceTest {
         EffortLevel.LOW,
         LocationType.INDOOR,
         SocialType.ALONE,
-        WeatherCompatibility.ANY,
-        HealthCompatibility.ANY,
         true
     ));
 
@@ -61,8 +57,6 @@ class ActivityServiceTest {
         EffortLevel.LOW,
         LocationType.INDOOR,
         SocialType.ALONE,
-        WeatherCompatibility.ANY,
-        HealthCompatibility.ANY,
         true
     ));
 
@@ -93,8 +87,6 @@ class ActivityServiceTest {
         EffortLevel.MEDIUM,
         LocationType.OUTDOOR,
         SocialType.ALONE,
-        WeatherCompatibility.SUNNY,
-        HealthCompatibility.ANY,
         true
     ));
 

@@ -51,7 +51,7 @@ public class DurationRange extends AbstractMultiValueObject {
       throw new InvalidValueException("maxDurationMinutes", "Max duration must be between 1 and 1440 minutes");
     }
     if (min > max) {
-      throw new InvalidValueException("durationMinutes", "Min duration must be <= max duration");
+      throw new InvalidValueException("durationRange", "Min duration must be <= max duration");
     }
   }
 
